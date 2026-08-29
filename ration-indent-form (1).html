@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ration Dealer Indent Form</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Martel:wght@600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF;
+    --ink:#2B241E;
+    --muted:#8B7C6C;
+    --rust:#C15A2E;
+    --rust-dark:#A24A24;
+    --indigo:#4C3F8C;
+    --input-bg:#F7ECE0;
+    --input-border:#EAD8C3;
+    --icon-circle:#F6DFCF;
+    --icon-muted:#C9A382;
+    --button:#D8A98A;
+    --button-dark:#C08F6C;
+    --stamp:#A83A2C;
+    --line:#E8D8C5;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 85% 10%, rgba(230,190,140,0.40), transparent 45%),
+      radial-gradient(circle at 8% 92%, rgba(210,160,120,0.28), transparent 50%),
+      linear-gradient(160deg, #F8ECDE 0%, #EFDBC2 100%);
+    color:var(--ink);
+    font-family:'Hind Siliguri', sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:28px 16px 50px;
+  }
+
+  .top-bar{
+    width:100%;
+    max-width:560px;
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:16px;
+  }
+  .lang-links{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+    font-weight:600;
+  }
+  .lang-links button{
+    background:none;
+    border:none;
+    color:var(--muted);
+    font-family:'Hind Siliguri',sans-serif;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    padding:4px 6px;
+  }
+  .lang-links button.active{
+    color:var(--rust);
+    text-decoration:underline;
+    text-underline-offset:3px;
+  }
+  .lang-links .sep{color:var(--line);}
+
+  .card{
+    width:100%;
+    max-width:560px;
+    background:var(--white);
+    border-radius:var(--radius);
+    position:relative;
+    box-shadow:0 30px 60px -32px rgba(120,70,30,0.38), 0 2px 0 rgba(120,70,30,0.06);
+    overflow:hidden;
+    padding:38px 32px 32px;
+  }
+
+  .card-icon{
+    width:64px;height:64px;
+    margin:0 auto 16px;
+    border-radius:50%;
+    background:var(--icon-circle);
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  h1{
+    font-family:'Martel',serif;
+    font-weight:800;
+    font-size:23px;
+    text-align:center;
+    margin:0 0 6px;
+    color:var(--rust);
+  }
+  .site-caption{
+    text-align:center;
+    font-size:13px;
+    font-weight:600;
+    color:var(--indigo);
+    margin:0 0 30px;
+  }
+
+  .stamp-badge{
+    position:absolute;
+    top:120px;
+    right:26px;
+    width:90px;height:90px;
+    border-radius:50%;
+    border:3px double var(--stamp);
+    color:var(--stamp);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-family:'Martel',serif;
+    font-weight:800;
+    font-size:11px;
+    line-height:1.2;
+    transform:rotate(-11deg) scale(0.5);
+    opacity:0;
+    transition:transform .45s cubic-bezier(.2,1.4,.4,1), opacity .3s;
+    pointer-events:none;
+    background:rgba(255,255,255,0.92);
+  }
+  .stamp-badge.show{
+    opacity:1;
+    transform:rotate(-11deg) scale(1);
+  }
+
+  fieldset{border:none;padding:0;margin:0 0 6px;}
+  legend{
+    font-family:'Hind Siliguri',sans-serif;
+    font-weight:700;
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--muted);
+    padding:0 0 10px;
+    width:100%;
+    margin-bottom:6px;
+  }
+
+  .field{margin-bottom:20px;}
+  .field label{
+    display:block;
+    font-size:15px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:8px;
+  }
+  .field .req{color:var(--rust); margin-left:2px;}
+
+  .input-wrap{position:relative;}
+  .input-wrap svg{
+    position:absolute;
+    left:14px;top:50%;
+    transform:translateY(-50%);
+    pointer-events:none;
+  }
+  .field input[type=text],
+  .field input[type=number],
+  .field select{
+    width:100%;
+    font-family:'Hind Siliguri',sans-serif;
+    font-size:15px;
+    padding:13px 14px 13px 42px;
+    border:1.5px solid var(--input-border);
+    border-radius:11px;
+    background:var(--input-bg);
+    color:var(--ink);
+    outline:none;
+    transition:border-color .15s, box-shadow .15s;
+    appearance:none;
+    -webkit-appearance:none;
+  }
+  .field select{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23C15A2E' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 14px center;
+    padding-right:36px;
+  }
+  .field input::placeholder{color:#B7A895;}
+  .field input:focus,
+  .field select:focus{
+    border-color:var(--rust);
+    box-shadow:0 0 0 3px rgba(193,90,46,0.14);
+  }
+  .field-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  @media (max-width:480px){
+    .field-row{grid-template-columns:1fr;}
+    .card{padding:30px 20px 26px;}
+    .stamp-badge{width:74px;height:74px;font-size:9.5px;top:auto;bottom:170px;right:18px;}
+  }
+
+  .hint{
+    font-size:12.5px;
+    color:var(--muted);
+    margin-top:7px;
+  }
+
+  .submit-btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:11px;
+    background:var(--button);
+    color:var(--white);
+    font-family:'Hind Siliguri',sans-serif;
+    font-weight:700;
+    font-size:15.5px;
+    letter-spacing:.01em;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    transition:background .2s, transform .1s;
+    margin-top:6px;
+  }
+  .submit-btn:hover{background:var(--button-dark);}
+  .submit-btn:active{transform:translateY(1px);}
+  .submit-btn:disabled{background:#D9CFC3;cursor:progress;}
+
+  .status-msg{
+    margin-top:16px;
+    padding:12px 14px;
+    border-radius:11px;
+    font-size:13.5px;
+    font-weight:600;
+    display:none;
+  }
+  .status-msg.success{
+    display:block;
+    background:#EAF3E6;
+    color:#3E6B33;
+    border:1.3px solid #C7DFBC;
+  }
+  .status-msg.error{
+    display:block;
+    background:#FBEAE6;
+    color:var(--stamp);
+    border:1.3px solid #EFC5BB;
+  }
+
+  .notes-box{
+    margin-top:20px;
+    background:#FBF1E7;
+    border:1.3px solid var(--line);
+    border-radius:13px;
+    padding:14px 16px;
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+  }
+  .notes-box svg{flex-shrink:0;margin-top:2px;}
+  .notes-box p{
+    margin:0;
+    font-size:12.5px;
+    color:#6b5c4a;
+    line-height:1.55;
+  }
+  .config-warning{
+    color:#8a4416;
+  }
+  .config-warning code{
+    background:#00000010;
+    padding:1px 5px;
+    border-radius:4px;
+    font-size:11.5px;
+  }
+
+  footer{
+    margin-top:24px;
+    font-size:11px;
+    color:#9c8c78;
+    text-align:center;
+    max-width:560px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="lang-links" role="group" aria-label="Language">
+      <button type="button" id="btn-en" class="active">English</button>
+      <span class="sep">|</span>
+      <button type="button" id="btn-bn">বাংলা</button>
+    </div>
+  </div>
+
+  <form class="card" id="indentForm" autocomplete="off">
+
+    <div class="stamp-badge" id="stampBadge">SUBMITTED<br>✓</div>
+
+    <div class="card-icon">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+        <path d="M12 3v15" stroke="#C15A2E" stroke-width="1.4" stroke-linecap="round"/>
+        <circle cx="12" cy="3" r="1.2" fill="#C15A2E"/>
+        <path d="M4.3 5.6h15.4" stroke="#C15A2E" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M9.2 17.6h5.6c0 1.15-1.25 2.1-2.8 2.1s-2.8-.95-2.8-2.1Z" stroke="#C15A2E" stroke-width="1.2" fill="none"/>
+        <path d="M6.8 20.4h10.4" stroke="#C15A2E" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M4.3 5.6 3.1 10.4M4.3 5.6 5.5 10.4" stroke="#C15A2E" stroke-width="1" stroke-linecap="round"/>
+        <path d="M2.2 10.4c0 1.7 1.4 3.1 3.1 3.1s3.1-1.4 3.1-3.1" stroke="#C15A2E" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M19.7 5.6 18.5 10.4M19.7 5.6 20.9 10.4" stroke="#C15A2E" stroke-width="1" stroke-linecap="round"/>
+        <path d="M15.6 10.4c0 1.7 1.4 3.1 3.1 3.1s3.1-1.4 3.1-3.1" stroke="#C15A2E" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <h1 id="txt-title">Ration Dealer Indent Form</h1>
+    <p class="site-caption" id="txt-caption">Food &amp; Supplies Dept. &mdash; Government of West Bengal</p>
+
+    <fieldset>
+      <legend id="leg-dealer">Dealer Details</legend>
+
+      <div class="field">
+        <label for="dealerName" id="lbl-dealerName">Ration Dealer Name<span class="req">*</span></label>
+        <div class="input-wrap">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#C9A382" stroke-width="1.6"/><path d="M4 20c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5" stroke="#C9A382" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input type="text" id="dealerName" name="dealerName" placeholder="Enter dealer's full name" required>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="fpsNo" id="lbl-fpsNo">FPS No.<span class="req">*</span></label>
+          <div class="input-wrap">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="4" width="17" height="16" rx="2.2" stroke="#C9A382" stroke-width="1.6"/><path d="M7.5 9h9M7.5 13h9M7.5 17h5" stroke="#C9A382" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <input type="text" id="fpsNo" name="fpsNo" placeholder="e.g. FPS-2231" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="blockName" id="lbl-blockName">Block Name<span class="req">*</span></label>
+          <div class="input-wrap">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z" stroke="#C9A382" stroke-width="1.6"/><circle cx="12" cy="9.5" r="2.3" stroke="#C9A382" stroke-width="1.6"/></svg>
+            <select id="blockName" name="blockName" required>
+              <option value="" disabled selected id="opt-choose">Choose block</option>
+              <option value="TFG - I">TFG - I</option>
+              <option value="TFG - II">TFG - II</option>
+              <option value="TFG - M">TFG - M</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend id="leg-indent">Indent Quantity</legend>
+      <div class="field-row">
+        <div class="field">
+          <label for="sugarIndent" id="lbl-sugar">Sugar Indent (kg)<span class="req">*</span></label>
+          <div class="input-wrap">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M7 4h10l1.4 5.6c.6 2.4-1.2 4.7-3.7 4.7h-5.4c-2.5 0-4.3-2.3-3.7-4.7L7 4Z" stroke="#C9A382" stroke-width="1.6"/><path d="M9.5 14.3 8 20h8l-1.5-5.7" stroke="#C9A382" stroke-width="1.6"/></svg>
+            <input type="number" id="sugarIndent" name="sugarIndent" min="0" step="0.01" placeholder="0.00" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="flourIndent" id="lbl-flour">Flour Indent (kg)<span class="req">*</span></label>
+          <div class="input-wrap">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M6.5 3.5h11L19 20.5H5L6.5 3.5Z" stroke="#C9A382" stroke-width="1.6"/><path d="M9 9h6M8.6 13h6.8" stroke="#C9A382" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <input type="number" id="flourIndent" name="flourIndent" min="0" step="0.01" placeholder="0.00" required>
+          </div>
+        </div>
+      </div>
+      <p class="hint" id="txt-hint">Enter quantities in kilograms.</p>
+    </fieldset>
+
+    <button type="submit" class="submit-btn" id="submitBtn">
+      <span id="txt-submit">Submit Indent</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <div class="status-msg" id="statusMsg"></div>
+
+    <div class="notes-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#C15A2E" stroke-width="1.6"/><path d="M12 11v6M12 7.5v.01" stroke="#C15A2E" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <p id="txt-notes">Notes: All fields marked with * are mandatory. Please double-check your FPS No. and quantities before submitting &mdash; entries are recorded directly to the departmental register.</p>
+    </div>
+
+    <div class="notes-box config-warning" id="configWarning" style="display:none;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#8a4416" stroke-width="1.6"/><path d="M12 11v6M12 7.5v.01" stroke="#8a4416" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <p>Google Sheet not connected yet. Open this file's code and replace <code>SCRIPT_URL</code> with your deployed Google Apps Script Web App URL.</p>
+    </div>
+
+  </form>
+
+  <footer id="txt-footer">This form submits directly to the departmental Google Sheet register.</footer>
+
+<script>
+  // ======================================================================
+  // 1. PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW (see setup guide)
+  // ======================================================================
+  const SCRIPT_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+  // ======================================================================
+
+  const translations = {
+    en: {
+      title: "Ration Dealer Indent Form",
+      caption: "Food & Supplies Dept. — Government of West Bengal",
+      legDealer: "Dealer Details",
+      legIndent: "Indent Quantity",
+      dealerName: "Ration Dealer Name",
+      dealerPh: "Enter dealer's full name",
+      fpsNo: "FPS No.",
+      fpsPh: "e.g. FPS-2231",
+      blockName: "Block Name",
+      chooseBlock: "Choose block",
+      sugar: "Sugar Indent (kg)",
+      flour: "Flour Indent (kg)",
+      hint: "Enter quantities in kilograms.",
+      submit: "Submit Indent",
+      submitting: "Submitting…",
+      footer: "This form submits directly to the departmental Google Sheet register.",
+      notes: "Notes: All fields marked with * are mandatory. Please double-check your FPS No. and quantities before submitting — entries are recorded directly to the departmental register.",
+      success: "✓ Indent submitted successfully.",
+      error: "Could not submit. Please check your connection and try again."
+    },
+    bn: {
+      title: "রেশন ডিলার ইনডেন্ট ফর্ম",
+      caption: "খাদ্য ও সরবরাহ দপ্তর — পশ্চিমবঙ্গ সরকার",
+      legDealer: "ডিলারের বিবরণ",
+      legIndent: "ইনডেন্ট পরিমাণ",
+      dealerName: "রেশন ডিলারের নাম",
+      dealerPh: "ডিলারের পুরো নাম লিখুন",
+      fpsNo: "এফপিএস নম্বর",
+      fpsPh: "যেমন FPS-2231",
+      blockName: "ব্লকের নাম",
+      chooseBlock: "ব্লক নির্বাচন করুন",
+      sugar: "চিনি ইনডেন্ট (কেজি)",
+      flour: "আটা ইনডেন্ট (কেজি)",
+      hint: "পরিমাণ কেজিতে লিখুন।",
+      submit: "ইনডেন্ট জমা দিন",
+      submitting: "জমা হচ্ছে…",
+      footer: "এই ফর্মটি সরাসরি দপ্তরের গুগল শিটে জমা হয়।",
+      notes: "দ্রষ্টব্য: * চিহ্নিত সমস্ত ঘর পূরণ করা আবশ্যক। জমা দেওয়ার আগে আপনার এফপিএস নম্বর ও পরিমাণ যাচাই করুন — তথ্য সরাসরি দপ্তরের রেজিস্টারে রেকর্ড হয়।",
+      success: "✓ ইনডেন্ট সফলভাবে জমা হয়েছে।",
+      error: "জমা করা যায়নি। আপনার সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।"
+    }
+  };
+
+  let currentLang = "en";
+
+  function applyLang(lang){
+    currentLang = lang;
+    const t = translations[lang];
+    document.documentElement.lang = lang;
+    document.getElementById("txt-title").textContent = t.title;
+    document.getElementById("txt-caption").textContent = t.caption;
+    document.getElementById("leg-dealer").textContent = t.legDealer;
+    document.getElementById("leg-indent").textContent = t.legIndent;
+    document.getElementById("lbl-dealerName").innerHTML = t.dealerName + '<span class="req">*</span>';
+    document.getElementById("dealerName").placeholder = t.dealerPh;
+    document.getElementById("lbl-fpsNo").innerHTML = t.fpsNo + '<span class="req">*</span>';
+    document.getElementById("fpsNo").placeholder = t.fpsPh;
+    document.getElementById("lbl-blockName").innerHTML = t.blockName + '<span class="req">*</span>';
+    document.getElementById("opt-choose").textContent = t.chooseBlock;
+    document.getElementById("lbl-sugar").innerHTML = t.sugar + '<span class="req">*</span>';
+    document.getElementById("lbl-flour").innerHTML = t.flour + '<span class="req">*</span>';
+    document.getElementById("txt-hint").textContent = t.hint;
+    document.getElementById("txt-submit").textContent = t.submit;
+    document.getElementById("txt-notes").textContent = t.notes;
+    document.getElementById("txt-footer").textContent = t.footer;
+
+    document.getElementById("btn-en").classList.toggle("active", lang === "en");
+    document.getElementById("btn-bn").classList.toggle("active", lang === "bn");
+  }
+
+  document.getElementById("btn-en").addEventListener("click", () => applyLang("en"));
+  document.getElementById("btn-bn").addEventListener("click", () => applyLang("bn"));
+  applyLang("en");
+
+  if (SCRIPT_URL.indexOf("PASTE_YOUR") === 0) {
+    document.getElementById("configWarning").style.display = "flex";
+  }
+
+  const form = document.getElementById("indentForm");
+  const submitBtn = document.getElementById("submitBtn");
+  const submitLabel = document.getElementById("txt-submit");
+  const statusMsg = document.getElementById("statusMsg");
+  const stampBadge = document.getElementById("stampBadge");
+
+  form.addEventListener("submit", async function(e){
+    e.preventDefault();
+    const t = translations[currentLang];
+    statusMsg.className = "status-msg";
+    stampBadge.classList.remove("show");
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const payload = {
+      dealerName: document.getElementById("dealerName").value.trim(),
+      fpsNo: document.getElementById("fpsNo").value.trim(),
+      blockName: document.getElementById("blockName").value,
+      sugarIndent: document.getElementById("sugarIndent").value,
+      flourIndent: document.getElementById("flourIndent").value,
+      timestamp: new Date().toISOString()
+    };
+
+    if (SCRIPT_URL.indexOf("PASTE_YOUR") === 0) {
+      statusMsg.textContent = t.error + " (SCRIPT_URL not configured)";
+      statusMsg.className = "status-msg error";
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitLabel.textContent = t.submitting;
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      statusMsg.textContent = t.success;
+      statusMsg.className = "status-msg success";
+      stampBadge.classList.add("show");
+      form.reset();
+      applyLang(currentLang);
+    } catch (err) {
+      statusMsg.textContent = t.error;
+      statusMsg.className = "status-msg error";
+    } finally {
+      submitBtn.disabled = false;
+      submitLabel.textContent = t.submit;
+    }
+  });
+</script>
+</body>
+</html>
